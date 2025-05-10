@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import { useAllergens } from '@/hooksTBD/useAllergens';
+import { useAllergens } from '@/hooks/useAllergens';
 import { colors } from '@/constants/colors';
 import { X } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';

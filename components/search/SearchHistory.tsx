@@ -5,10 +5,10 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { useRecipes } from '@/hooksTBD/useRecipes';
+import { useRecipes } from '@/hooks/useRecipes';
 import { colors } from '@/constants/colors';
 import { Clock, Search } from 'lucide-react-native';
-import { useAllergens } from '@/hooksTBD/useAllergens';
+import { useAllergens } from '@/hooks/useAllergens';
 
 export default function SearchHistory() {
   const { searchHistory, setCurrentRecipe } = useRecipes();

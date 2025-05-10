@@ -9,8 +9,8 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import { useAllergens } from '@/hooksTBD/useAllergens';
-import { useRecipes } from '@/hooksTBD/useRecipes';
+import { useAllergens } from '@/hooks/useAllergens';
+import { useRecipes } from '@/hooks/useRecipes';
 import SearchBar from '@/components/search/SearchBar';
 import AllergenFilter from '@/components/search/AllergenFilter';
 import RecipeModal from '@/components/recipes/RecipeModal';

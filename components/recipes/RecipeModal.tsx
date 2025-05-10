@@ -22,7 +22,7 @@ import {
   Cookie,
   X,
 } from 'lucide-react-native';
-import { useRecipes } from '@/hooksTBD/useRecipes';
+import { useRecipes } from '@/hooks/useRecipes';
 import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
 

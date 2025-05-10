@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Linking,
 } from 'react-native';
-import { useAllergens } from '@/hooksTBD/useAllergens';
+import { useAllergens } from '@/hooks/useAllergens';
 import { colors } from '@/constants/colors';
 import { CircleAlert as AlertCircle, ExternalLink } from 'lucide-react-native';
 

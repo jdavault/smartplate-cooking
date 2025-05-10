@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, SafeAreaView, FlatList } from 'react-native';
-import { useRecipes } from '@/hooksTBD/useRecipes';
+import { useRecipes } from '@/hooks/useRecipes';
 import RecipeCard from '@/components/recipes/RecipeCard';
 import { colors } from '@/constants/colors';
 import EmptyState from '@/components/ui/EmptyState';

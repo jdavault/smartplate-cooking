@@ -16,6 +16,12 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "joe.davault@gmail.com",
+        "ascAppId": "6745743999",
+        "appleTeamId": "GEVW9YV737"
+      }
+    }
   }
 }

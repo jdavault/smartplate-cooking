@@ -9,7 +9,12 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "ios": {
+        "simulator": true
+      },
+      "android": {
+        "buildType": "apk"
+      }
     },
     "production": {
       "autoIncrement": true
@@ -21,9 +26,6 @@
         "appleId": "joe.davault@gmail.com",
         "ascAppId": "6745743999",
         "appleTeamId": "GEVW9YV737"
-      },
-      "android": {
-        "serviceAccountKeyPath": "./service-account.json"
       }
     }
   }

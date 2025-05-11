@@ -69,22 +69,22 @@ export default function FavoritesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondary,
   },
   header: {
     padding: 16,
     paddingTop: 24,
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondary,
   },
   title: {
     fontFamily: 'Montserrat-Bold',
     fontSize: 24,
-    color: colors.gray[900],
+    color: colors.grayBlue[900],
   },
   subtitle: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    color: colors.gray[600],
+    color: colors.grayBlue[600],
     marginTop: 4,
   },
   listContent: {

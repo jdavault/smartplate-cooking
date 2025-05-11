@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.gray[300],
+    borderColor: colors.grayBlue[300],
   },
   allergenChipSelected: {
     backgroundColor: colors.primary,

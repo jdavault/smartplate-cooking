@@ -95,14 +95,14 @@ export default function RecipeCard({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondary,
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: colors.gray[200],
+    borderColor: colors.grayBlue[200],
     elevation: 2,
-    shadowColor: colors.black,
+    shadowColor: colors.accentDark,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   date: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 12,
-    color: colors.gray[500],
+    color: colors.grayBlue[500],
   },
   deleteButton: {
     padding: 4,
@@ -124,13 +124,13 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 18,
-    color: colors.gray[900],
+    color: colors.grayBlue[900],
     marginBottom: 4,
   },
   description: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    color: colors.gray[700],
+    color: colors.grayBlue[700],
     marginBottom: 12,
   },
   metaInfo: {
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   metaText: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 13,
-    color: colors.gray[700],
+    color: colors.grayBlue[700],
     marginLeft: 4,
   },
   allergens: {

@@ -16,9 +16,9 @@ export default function EmptyState({
   return (
     <View style={styles.container}>
       {icon === 'search' ? (
-        <Search size={48} color={colors.gray[300]} />
+        <Search size={48} color={colors.grayBlue[300]} />
       ) : (
-        <Bookmark size={48} color={colors.gray[300]} />
+        <Bookmark size={48} color={colors.grayBlue[300]} />
       )}
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.message}>{message}</Text>
@@ -37,14 +37,14 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 18,
-    color: colors.gray[800],
+    color: colors.grayBlue[800],
     marginTop: 16,
     marginBottom: 8,
   },
   message: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    color: colors.gray[600],
+    color: colors.grayBlue[600],
     textAlign: 'center',
     lineHeight: 20,
   },

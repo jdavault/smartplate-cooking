@@ -21,6 +21,9 @@
         "appleId": "joe.davault@gmail.com",
         "ascAppId": "6745743999",
         "appleTeamId": "GEVW9YV737"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./service-account.json"
       }
     }
   }

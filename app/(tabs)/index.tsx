@@ -48,6 +48,7 @@ export default function SearchScreen() {
         </View>
 
         <SearchBar
+          inputContainerStyle={styles.searchBar}
           value={searchQuery}
           onChangeText={setSearchQuery}
           onSearch={handleSearch}

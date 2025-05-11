@@ -107,14 +107,14 @@ export default function RecipeModal({
             <View style={styles.modalContent}>
               <View style={styles.header}>
                 <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                  <ChevronLeft size={24} color={colors.gray[800]} />
+                  <ChevronLeft size={24} color={colors.grayBlue[800]} />
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>Recipe</Text>
                 <TouchableOpacity
                   style={styles.closeButtonRight}
                   onPress={onClose}
                 >
-                  <X size={24} color={colors.gray[800]} />
+                  <X size={24} color={colors.grayBlue[800]} />
                 </TouchableOpacity>
               </View>
 
@@ -208,7 +208,7 @@ export default function RecipeModal({
                   >
                     <BookmarkCheck
                       size={20}
-                      color={isSaved ? colors.white : colors.primary}
+                      color={isSaved ? colors.secondary : colors.primary}
                     />
                     <Text
                       style={[
@@ -225,7 +225,7 @@ export default function RecipeModal({
                     style={[styles.actionButton, styles.closeButtonBottom]}
                     onPress={onClose}
                   >
-                    <ThumbsUp size={20} color={colors.gray[800]} />
+                    <ThumbsUp size={20} color={colors.grayBlue[800]} />
                     <Text style={styles.actionButtonText}>Close</Text>
                   </TouchableOpacity>
                 </View>
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondary,
     borderRadius: 16,
     overflow: 'hidden',
   },
@@ -264,13 +264,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray[200],
-    backgroundColor: colors.white,
+    borderBottomColor: colors.grayBlue[200],
+    backgroundColor: colors.secondary,
   },
   headerTitle: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 18,
-    color: colors.gray[900],
+    color: colors.grayBlue[900],
   },
   closeButton: {
     padding: 4,
@@ -288,13 +288,13 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Montserrat-Bold',
     fontSize: 24,
-    color: colors.gray[900],
+    color: colors.grayBlue[900],
     marginBottom: 8,
   },
   description: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 16,
-    color: colors.gray[700],
+    color: colors.grayBlue[700],
     lineHeight: 22,
     marginBottom: 16,
   },
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
   metaText: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    color: colors.gray[700],
+    color: colors.grayBlue[700],
     marginLeft: 6,
   },
   allergensContainer: {
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 18,
-    color: colors.gray[900],
+    color: colors.grayBlue[900],
     marginBottom: 12,
   },
   ingredientsList: {
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
   ingredientText: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 16,
-    color: colors.gray[800],
+    color: colors.grayBlue[800],
     flex: 1,
   },
   instructionsList: {
@@ -385,12 +385,12 @@ const styles = StyleSheet.create({
   instructionNumber: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 14,
-    color: colors.white,
+    color: colors.secondary,
   },
   instructionText: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 16,
-    color: colors.gray[800],
+    color: colors.grayBlue[800],
     flex: 1,
     lineHeight: 24,
   },
@@ -401,22 +401,22 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   tag: {
-    backgroundColor: colors.gray[200],
-    borderRadius: 16,
+    backgroundColor: colors.primary,
+    borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 6,
   },
   tagText: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 12,
-    color: colors.gray[700],
+    color: colors.secondary,
   },
   actions: {
     flexDirection: 'row',
     padding: 16,
     borderTopWidth: 1,
-    borderTopColor: colors.gray[200],
-    backgroundColor: colors.white,
+    borderTopColor: colors.grayBlue[200],
+    backgroundColor: colors.secondary,
   },
   actionButton: {
     flex: 1,
@@ -437,9 +437,9 @@ const styles = StyleSheet.create({
     borderColor: colors.primary,
   },
   closeButtonBottom: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondary,
     borderWidth: 1,
-    borderColor: colors.gray[300],
+    borderColor: colors.grayBlue[300],
   },
   actionButtonText: {
     fontFamily: 'Montserrat-SemiBold',
@@ -447,9 +447,9 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   saveButtonText: {
-    color: colors.white,
+    color: colors.secondary,
   },
   savedButtonText: {
-    color: colors.white,
+    color: colors.secondary,
   },
 });

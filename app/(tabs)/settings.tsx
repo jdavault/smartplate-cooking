@@ -42,8 +42,11 @@ export default function SettingsScreen() {
                 <Switch
                   value={selectedAllergens.includes(allergen.id)}
                   onValueChange={() => toggleAllergen(allergen.id)}
-                  trackColor={{ false: colors.gray[300], true: colors.primary }}
-                  thumbColor={colors.white}
+                  trackColor={{
+                    false: colors.grayBlue[300],
+                    true: colors.primary,
+                  }}
+                  thumbColor={colors.secondary}
                 />
               </View>
             ))}
@@ -91,42 +94,42 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.gray[50],
+    backgroundColor: colors.grayBlue[50],
   },
   header: {
     padding: 16,
     paddingTop: 24,
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondary,
   },
   title: {
     fontFamily: 'Montserrat-Bold',
     fontSize: 24,
-    color: colors.gray[900],
+    color: colors.grayBlue[900],
   },
   subtitle: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    color: colors.gray[600],
+    color: colors.grayBlue[600],
     marginTop: 4,
   },
   content: {
     flex: 1,
   },
   section: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.secondary,
     padding: 16,
     marginBottom: 16,
   },
   sectionTitle: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 18,
-    color: colors.gray[900],
+    color: colors.grayBlue[900],
     marginBottom: 8,
   },
   sectionDescription: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    color: colors.gray[600],
+    color: colors.grayBlue[600],
     marginBottom: 16,
   },
   allergensList: {
@@ -138,17 +141,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray[200],
+    borderBottomColor: colors.grayBlue[200],
   },
   allergenName: {
     fontFamily: 'Montserrat-Medium',
     fontSize: 16,
-    color: colors.gray[900],
+    color: colors.grayBlue[900],
   },
   allergenDescription: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 13,
-    color: colors.gray[600],
+    color: colors.grayBlue[600],
     marginTop: 2,
   },
   disclaimerBox: {
@@ -173,7 +176,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: colors.gray[200],
+    borderBottomColor: colors.grayBlue[200],
   },
   linkText: {
     fontFamily: 'OpenSans-Regular',
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
   versionText: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    color: colors.gray[500],
+    color: colors.grayBlue[500],
     textAlign: 'center',
     marginTop: 24,
   },

@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios';
 import { Recipe } from '@/types/recipe';
-import { Platform } from 'react-native';
 
 export async function generateRecipe(
   query: string,

@@ -1,15 +1,53 @@
 export const colors = {
-  primary: '#FF8866', // PRAWN
-  primaryLight: '#FFA28A',
-  primaryDark: '#CC6B52',
+  primary: '#FF8866', // Prawn
+  primaryLight: '#FFAD99', // Slightly more contrast than #FFA28A
+  primaryDark: '#CC6650',
 
-  secondary: '#F9F8F2', // CERULEAN BLUE GRAY
-  secondaryLight: '#F9F8F2',
-  secondaryDark: '#E6E5DF',
+  secondary: '#F9F8F2', // Rice
+  secondaryLight: '#FFFFFF', // true white for elevated components
+  secondaryDark: '#E0DED6', // slightly more contrast than #E6E5DF
 
-  accent: '#253031', // IRON BLACK
-  accentLight: '#3A444D',
-  accentDark: '#1A1F23',
+  accent: '#253031', // Iron Black
+  accentLight: '#3B4649',
+  accentDark: '#181D1F',
+
+  grayBlue: {
+    50: '#D7E8EF', // very light (tint of base)
+    100: '#0B6082', // base
+    200: '#095673', // slightly darker
+    300: '#084C65',
+    400: '#064356',
+    500: '#053947',
+    600: '#043039',
+    700: '#03262A',
+    800: '#021C1C',
+    900: '#01120D', // darkest
+  },
+
+  sunflower: {
+    50: '#FCFAE2',
+    100: '#F3ED86',
+    200: '#F1E26A',
+    300: '#EDD84F',
+    400: '#E6CB34',
+    500: '#DAB723',
+    600: '#C2A11A',
+    700: '#A88A15',
+    800: '#8E7411',
+    900: '#735F0D',
+  },
+  rice: {
+    50: '#FCFBF7',
+    100: '#F9F8F2',
+    200: '#EDECE3',
+    300: '#D9D8D0',
+    400: '#C5C5C0',
+    500: '#AEB0AF',
+    600: '#8B9498',
+    700: '#6A7880',
+    800: '#4E5D67',
+    900: '#39444D',
+  },
 
   success: {
     50: '#F1F1EF',
@@ -49,20 +87,4 @@ export const colors = {
     800: '#661114',
     900: '#33090A',
   },
-
-  gray: {
-    50: '#D7E8EF', // very light (tint of base)
-    100: '#0B6082', // base
-    200: '#095673', // slightly darker
-    300: '#084C65',
-    400: '#064356',
-    500: '#053947',
-    600: '#043039',
-    700: '#03262A',
-    800: '#021C1C',
-    900: '#01120D', // darkest
-  },
-
-  white: '#F9F8F2',
-  black: '#000000',
 };

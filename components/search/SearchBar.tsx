@@ -61,7 +61,7 @@ const SearchBar = ({
         <TextInput
           style={[
             styles.input,
-            { borderColor: isFocused ? '#FF8866' : '##FF8866' }, // Custom focus color
+            { borderWidth: 1, borderColor: isFocused ? '#FF8866' : '#CCCCCC' }, // Custom focus color
           ]}
           value={value}
           onChangeText={onChangeText}

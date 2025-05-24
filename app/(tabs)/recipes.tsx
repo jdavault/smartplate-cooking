@@ -18,6 +18,7 @@ import RecipeModal from '@/components/recipes/RecipeModal';
 import { colors } from '@/constants/colors';
 import SearchHistory from '@/components/search/SearchHistory';
 import { ActivityIndicator } from 'react-native';
+import ThemedView from '@/components/ThemedView';
 
 export default function SearchScreen() {
   const { selectedAllergens } = useApplicationContext();

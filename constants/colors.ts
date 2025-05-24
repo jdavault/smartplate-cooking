@@ -95,18 +95,18 @@ export const colors = {
   },
 
   dark: {
-    primary: '#FF8866',
+    primary: '#FF8866', // prawn — keeps consistency for highlights
     primaryLight: '#FFAD99',
     primaryDark: '#CC6650',
 
-    secondary: '#1E1E1C',
-    secondaryLight: '#2A2A27',
-    secondaryLighter: '#2F2F2C',
-    secondaryDark: '#181816',
+    secondary: '#1A1E1F', // dark iron black background
+    secondaryLight: '#2A2E30', // slightly lighter background
+    secondaryLighter: '#3A3F42', // form field background
+    secondaryDark: '#141617', // near-black
 
-    accent: '#E6EBEB',
-    accentLight: '#F2F4F4',
-    accentDark: '#BCC0C0',
+    accent: '#F9F3E3', // rice/dark-rice for text
+    accentLight: '#FAF7EF', // brighter text
+    accentDark: '#D5D0C0', // muted rice for subtle text
 
     grayBlue: {
       50: '#01120D',

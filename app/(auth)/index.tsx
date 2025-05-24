@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import { Link } from 'expo-router';
 import { colors } from '../../constants/colors';
-import ThemedView from '../../components/themed/ThemedView';
-import ThemedLogo from '../../components/themed/ThemedLogo';
-import ThemedText from '../../components/themed/ThemedText';
+import ThemedView from '../../components/ThemedView';
+import ThemedLogo from '../../components/ThemedLogo';
+import ThemedText from '../../components/ThemedText';
 
 const Home: React.FC = () => {
   const colorScheme = useColorScheme() ?? 'light'; // Fallback to 'light'
@@ -28,6 +28,14 @@ const Home: React.FC = () => {
 
       <View style={styles.buttonRow}>
         <Pressable style={styles.button}>
+          <Link href="/login" asChild>
+            <ThemedText style={{ color: colors[colorScheme].secondary }}>
+              Login
+            </ThemedText>
+          </Link>
+        </Pressable>
+
+        <Pressable style={styles.button}>
           <Link href="/about" asChild>
             <ThemedText style={{ color: colors[colorScheme].secondary }}>
               About Us
@@ -39,14 +47,6 @@ const Home: React.FC = () => {
           <Link href="/contact" asChild>
             <ThemedText style={{ color: colors[colorScheme].secondary }}>
               Contact Us
-            </ThemedText>
-          </Link>
-        </Pressable>
-
-        <Pressable style={styles.button}>
-          <Link href="/support" asChild>
-            <ThemedText style={{ color: colors[colorScheme].secondary }}>
-              Support
             </ThemedText>
           </Link>
         </Pressable>

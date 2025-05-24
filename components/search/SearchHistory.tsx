@@ -10,6 +10,8 @@ import { useRecipeContext } from '@/hooks/useRecipeContext';
 import { colors } from '@/constants/colors';
 import { Clock, Search } from 'lucide-react-native';
 import { useApplicationContext } from '@/hooks/useApplicationContext';
+import ThemedView from '../ThemedView';
+import ThemedText from '../ThemedText';
 
 const SearchHistory = () => {
   const { searchHistory, setCurrentRecipe } = useRecipeContext();
@@ -28,22 +30,22 @@ const SearchHistory = () => {
 
   if (searchHistory.length === 0) {
     return (
-      <View style={styles.emptyContainer}>
+      <ThemedView>
         <Search size={48} color={theme.accent} />
-        <Text style={styles.emptyTitle}>Looking for recipes?</Text>
-        <Text style={styles.emptyText}>
+        <ThemedText style={styles.emptyTitle}>Looking for recipes?</ThemedText>
+        <ThemedText style={styles.emptyText}>
           Search for recipes above and we'll find something delicious that
           matches your dietary needs!
-        </Text>
-      </View>
+        </ThemedText>
+      </ThemedView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <ThemedView>
       <View style={styles.header}>
         <Clock size={18} color={theme.accent} />
-        <Text style={styles.title}>Recent Searches</Text>
+        <ThemedText style={styles.title}>Recent Searches</ThemedText>
       </View>
 
       <ScrollView>
@@ -71,7 +73,7 @@ const SearchHistory = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-    </View>
+    </ThemedView>
   );
 };
 export default SearchHistory;

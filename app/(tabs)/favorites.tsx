@@ -9,7 +9,7 @@ import {
 import { useRecipeContext } from '@/hooks/useRecipeContext';
 import RecipeCard from '@/components/recipes/RecipeCard';
 import { colors } from '@/constants/colors';
-import EmptyState from '@/components/ui/EmptyState';
+import EmptyState from '@/components/EmptyState';
 import RecipeModal from '@/components/recipes/RecipeModal';
 import { useState } from 'react';
 import { Recipe } from '@/types/recipe';

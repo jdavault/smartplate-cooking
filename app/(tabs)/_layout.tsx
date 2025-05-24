@@ -1,21 +1,24 @@
 import { Tabs } from 'expo-router';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, useColorScheme } from 'react-native';
 import { Search, BookmarkCheck, Settings } from 'lucide-react-native';
 import { colors } from '@/constants/colors';
 
-export default function TabLayout() {
+const TabLayout = () => {
+  const colorScheme = useColorScheme() ?? 'light'; // Default to 'light' if colorScheme is null
+  const theme = colors[colorScheme];
+  const styles = getStyles(colorScheme);
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: colors.secondary,
-        tabBarInactiveTintColor: colors.secondaryDark,
+        tabBarActiveTintColor: theme.secondary,
+        tabBarInactiveTintColor: theme.secondaryDark,
         tabBarLabelStyle: styles.tabBarLabel,
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="recipes"
         options={{
           title: 'Search',
           tabBarIcon: ({ color, size }) => (
@@ -43,26 +46,30 @@ export default function TabLayout() {
       />
     </Tabs>
   );
-}
+};
+export default TabLayout;
 
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: colors.primary,
-    borderTopWidth: 1,
-    borderTopColor: colors.primaryDark,
-    height: Platform.OS === 'ios' ? 88 : 64,
-    paddingBottom: Platform.OS === 'ios' ? 28 : 8,
-    paddingTop: 8,
-    elevation: 8,
-    shadowColor: colors.accentDark,
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-  },
-  tabBarLabel: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 12,
-    marginTop: 2,
-    color: colors.secondary,
-  },
-});
+const getStyles = (scheme: 'light' | 'dark') => {
+  const theme = colors[scheme];
+  return StyleSheet.create({
+    tabBar: {
+      backgroundColor: theme.primary,
+      borderTopWidth: 1,
+      borderTopColor: theme.primaryDark,
+      height: Platform.OS === 'ios' ? 88 : 64,
+      paddingBottom: Platform.OS === 'ios' ? 28 : 8,
+      paddingTop: 8,
+      elevation: 8,
+      shadowColor: theme.accentDark,
+      shadowOffset: { width: 0, height: -2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+    },
+    tabBarLabel: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 12,
+      marginTop: 2,
+      color: theme.secondary,
+    },
+  });
+};

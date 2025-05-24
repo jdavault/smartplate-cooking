@@ -8,9 +8,10 @@ import {
   Platform,
   ScrollView,
   Image,
+  useColorScheme,
 } from 'react-native';
-import { useAllergens } from '@/hooks/useAllergens';
-import { useRecipes } from '@/hooks/useRecipes';
+import { useApplicationContext } from '@/hooks/useApplicationContext';
+import { useRecipeContext } from '@/hooks/useRecipeContext';
 import SearchBar from '@/components/search/SearchBar';
 import AllergenFilter from '@/components/search/AllergenFilter';
 import RecipeModal from '@/components/recipes/RecipeModal';
@@ -19,10 +20,14 @@ import SearchHistory from '@/components/search/SearchHistory';
 import { ActivityIndicator } from 'react-native';
 
 export default function SearchScreen() {
-  const { selectedAllergens } = useAllergens();
+  const { selectedAllergens } = useApplicationContext();
   const { searchRecipes, currentRecipe, isLoading, error, clearCurrentRecipe } =
-    useRecipes();
+    useRecipeContext();
   const [searchQuery, setSearchQuery] = useState('');
+
+  const colorScheme = useColorScheme() ?? 'light';
+  const theme = colors[colorScheme];
+  const styles = getStyles(colorScheme);
 
   const handleSearch = () => {
     if (searchQuery.trim().length === 0) return;
@@ -64,7 +69,7 @@ export default function SearchScreen() {
         >
           {isLoading ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color={colors.primary} />
+              <ActivityIndicator size="large" color={theme.primary} />
               <Text style={styles.loadingText}>
                 Finding the perfect recipe...
               </Text>
@@ -90,71 +95,74 @@ export default function SearchScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.secondary,
-  },
-  keyboardAvoid: {
-    flex: 1,
-  },
-  header: {
-    padding: 16,
-    paddingTop: 24,
-    backgroundColor: colors.secondary,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginRight: 12,
-  },
-  title: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 24,
-    color: colors.accent,
-  },
-  subtitle: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.accentLight,
-    marginTop: 4,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: colors.secondary,
-  },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 100,
-  },
-  loadingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-    marginTop: 40,
-  },
-  loadingText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 16,
-    color: colors.accentLight,
-    marginTop: 16,
-    textAlign: 'center',
-  },
-  errorContainer: {
-    padding: 16,
-    backgroundColor: colors.error[50],
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.error[200],
-    marginTop: 16,
-  },
-  errorText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.error[600],
-  },
-});
+const getStyles = (scheme: 'light' | 'dark') => {
+  const theme = colors[scheme];
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.secondary,
+    },
+    keyboardAvoid: {
+      flex: 1,
+    },
+    header: {
+      padding: 16,
+      paddingTop: 24,
+      backgroundColor: theme.secondary,
+    },
+    titleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    logo: {
+      width: 100,
+      height: 100,
+      marginRight: 12,
+    },
+    title: {
+      fontFamily: 'Montserrat-Bold',
+      fontSize: 24,
+      color: theme.accent,
+    },
+    subtitle: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.accentLight,
+      marginTop: 4,
+    },
+    content: {
+      flex: 1,
+      backgroundColor: theme.secondary,
+    },
+    scrollContent: {
+      padding: 16,
+      paddingBottom: 100,
+    },
+    loadingContainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 24,
+      marginTop: 40,
+    },
+    loadingText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 16,
+      color: theme.accentLight,
+      marginTop: 16,
+      textAlign: 'center',
+    },
+    errorContainer: {
+      padding: 16,
+      backgroundColor: theme.error[50],
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: theme.error[200],
+      marginTop: 16,
+    },
+    errorText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.error[600],
+    },
+  });
+};

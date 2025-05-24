@@ -7,13 +7,19 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  useColorScheme,
 } from 'react-native';
-import { useAllergens } from '@/hooks/useAllergens';
+import { useApplicationContext } from '@/hooks/useApplicationContext';
 import { colors } from '@/constants/colors';
 import { CircleAlert as AlertCircle, ExternalLink } from 'lucide-react-native';
 
 export default function SettingsScreen() {
-  const { allergensList, selectedAllergens, toggleAllergen } = useAllergens();
+  const { allergensList, selectedAllergens, toggleAllergen } =
+    useApplicationContext();
+
+  const colorScheme = useColorScheme() ?? 'light';
+  const theme = colors[colorScheme];
+  const styles = getStyles(colorScheme);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -43,10 +49,10 @@ export default function SettingsScreen() {
                   value={selectedAllergens.includes(allergen.id)}
                   onValueChange={() => toggleAllergen(allergen.id)}
                   trackColor={{
-                    false: colors.grayBlue[300],
-                    true: colors.primary,
+                    false: theme.grayBlue[300],
+                    true: theme.primary,
                   }}
-                  thumbColor={colors.secondary}
+                  thumbColor={theme.secondary}
                 />
               </View>
             ))}
@@ -58,7 +64,7 @@ export default function SettingsScreen() {
           <View style={styles.disclaimerBox}>
             <AlertCircle
               size={20}
-              color={colors.warning[700]}
+              color={theme.warning[700]}
               style={styles.disclaimerIcon}
             />
             <Text style={styles.disclaimerText}>
@@ -73,7 +79,7 @@ export default function SettingsScreen() {
             onPress={() => Linking.openURL('https://example.com/terms')}
           >
             <Text style={styles.linkText}>Terms of Service</Text>
-            <ExternalLink size={16} color={colors.primary} />
+            <ExternalLink size={16} color={theme.primary} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -81,7 +87,7 @@ export default function SettingsScreen() {
             onPress={() => Linking.openURL('https://example.com/privacy')}
           >
             <Text style={styles.linkText}>Privacy Policy</Text>
-            <ExternalLink size={16} color={colors.primary} />
+            <ExternalLink size={16} color={theme.primary} />
           </TouchableOpacity>
 
           <Text style={styles.versionText}>Version 1.0.0</Text>
@@ -91,104 +97,107 @@ export default function SettingsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.grayBlue[50],
-  },
-  header: {
-    padding: 16,
-    paddingTop: 24,
-    backgroundColor: colors.secondary,
-  },
-  title: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 24,
-    color: colors.grayBlue[900],
-  },
-  subtitle: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.grayBlue[600],
-    marginTop: 4,
-  },
-  content: {
-    flex: 1,
-  },
-  section: {
-    backgroundColor: colors.secondary,
-    padding: 16,
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 18,
-    color: colors.grayBlue[900],
-    marginBottom: 8,
-  },
-  sectionDescription: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.grayBlue[600],
-    marginBottom: 16,
-  },
-  allergensList: {
-    marginTop: 8,
-  },
-  allergenItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.grayBlue[200],
-  },
-  allergenName: {
-    fontFamily: 'Montserrat-Medium',
-    fontSize: 16,
-    color: colors.grayBlue[900],
-  },
-  allergenDescription: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 13,
-    color: colors.grayBlue[600],
-    marginTop: 2,
-  },
-  disclaimerBox: {
-    backgroundColor: colors.warning[50],
-    borderRadius: 8,
-    padding: 12,
-    flexDirection: 'row',
-    marginBottom: 16,
-  },
-  disclaimerIcon: {
-    marginRight: 12,
-    marginTop: 2,
-  },
-  disclaimerText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.warning[700],
-    flex: 1,
-  },
-  link: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.grayBlue[200],
-  },
-  linkText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 16,
-    color: colors.primary,
-    flex: 1,
-  },
-  versionText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.grayBlue[500],
-    textAlign: 'center',
-    marginTop: 24,
-  },
-});
+const getStyles = (scheme: 'light' | 'dark') => {
+  const theme = colors[scheme];
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.grayBlue[50],
+    },
+    header: {
+      padding: 16,
+      paddingTop: 24,
+      backgroundColor: theme.secondary,
+    },
+    title: {
+      fontFamily: 'Montserrat-Bold',
+      fontSize: 24,
+      color: theme.grayBlue[900],
+    },
+    subtitle: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.grayBlue[600],
+      marginTop: 4,
+    },
+    content: {
+      flex: 1,
+    },
+    section: {
+      backgroundColor: theme.secondary,
+      padding: 16,
+      marginBottom: 16,
+    },
+    sectionTitle: {
+      fontFamily: 'Montserrat-SemiBold',
+      fontSize: 18,
+      color: theme.grayBlue[900],
+      marginBottom: 8,
+    },
+    sectionDescription: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.grayBlue[600],
+      marginBottom: 16,
+    },
+    allergensList: {
+      marginTop: 8,
+    },
+    allergenItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.grayBlue[200],
+    },
+    allergenName: {
+      fontFamily: 'Montserrat-Medium',
+      fontSize: 16,
+      color: theme.grayBlue[900],
+    },
+    allergenDescription: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 13,
+      color: theme.grayBlue[600],
+      marginTop: 2,
+    },
+    disclaimerBox: {
+      backgroundColor: theme.warning[50],
+      borderRadius: 8,
+      padding: 12,
+      flexDirection: 'row',
+      marginBottom: 16,
+    },
+    disclaimerIcon: {
+      marginRight: 12,
+      marginTop: 2,
+    },
+    disclaimerText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.warning[700],
+      flex: 1,
+    },
+    link: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.grayBlue[200],
+    },
+    linkText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 16,
+      color: theme.primary,
+      flex: 1,
+    },
+    versionText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.grayBlue[500],
+      textAlign: 'center',
+      marginTop: 24,
+    },
+  });
+};

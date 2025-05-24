@@ -1,5 +1,12 @@
-import { View, Text, StyleSheet, SafeAreaView, FlatList } from 'react-native';
-import { useRecipes } from '@/hooks/useRecipes';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  FlatList,
+  useColorScheme,
+} from 'react-native';
+import { useRecipeContext } from '@/hooks/useRecipeContext';
 import RecipeCard from '@/components/recipes/RecipeCard';
 import { colors } from '@/constants/colors';
 import EmptyState from '@/components/ui/EmptyState';
@@ -8,8 +15,11 @@ import { useState } from 'react';
 import { Recipe } from '@/types/recipe';
 
 export default function FavoritesScreen() {
-  const { savedRecipes, removeSavedRecipe } = useRecipes();
+  const { savedRecipes, removeSavedRecipe } = useRecipeContext();
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+
+  const colorScheme = useColorScheme() ?? 'light'; // Default to 'light' if colorScheme is null
+  const styles = getStyles(colorScheme);
 
   const handleRecipePress = (recipe: Recipe) => {
     setSelectedRecipe(recipe);
@@ -66,29 +76,32 @@ export default function FavoritesScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.secondary,
-  },
-  header: {
-    padding: 16,
-    paddingTop: 24,
-    backgroundColor: colors.secondary,
-  },
-  title: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 24,
-    color: colors.grayBlue[900],
-  },
-  subtitle: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.grayBlue[600],
-    marginTop: 4,
-  },
-  listContent: {
-    padding: 16,
-    paddingBottom: 100,
-  },
-});
+const getStyles = (scheme: 'light' | 'dark') => {
+  const theme = colors[scheme];
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.secondary,
+    },
+    header: {
+      padding: 16,
+      paddingTop: 24,
+      backgroundColor: theme.secondary,
+    },
+    title: {
+      fontFamily: 'Montserrat-Bold',
+      fontSize: 24,
+      color: theme.grayBlue[900],
+    },
+    subtitle: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.grayBlue[600],
+      marginTop: 4,
+    },
+    listContent: {
+      padding: 16,
+      paddingBottom: 100,
+    },
+  });
+};

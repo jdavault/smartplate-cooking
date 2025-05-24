@@ -9,13 +9,13 @@ interface AppContextType {
   selectedAllergens: string[];
   toggleAllergen: (allergenId: string) => void;
   allergensList: Allergen[];
-  
+
   savedRecipes: Recipe[];
   saveRecipe: (recipe: Recipe) => void;
   removeSavedRecipe: (recipeId: string) => void;
   searchHistory: Recipe[];
   addToSearchHistory: (recipe: Recipe) => void;
-  
+
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
   error: string | null;
@@ -28,13 +28,13 @@ export const AppContext = createContext<AppContextType>({
   selectedAllergens: [],
   toggleAllergen: () => {},
   allergensList: [],
-  
+
   savedRecipes: [],
   saveRecipe: () => {},
   removeSavedRecipe: () => {},
   searchHistory: [],
   addToSearchHistory: () => {},
-  
+
   isLoading: false,
   setIsLoading: () => {},
   error: null,
@@ -92,13 +92,13 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         if (allergensData) {
           setSelectedAllergens(JSON.parse(allergensData));
         }
-        
+
         // Load saved recipes
         const recipesData = await getData('savedRecipes');
         if (recipesData) {
           setSavedRecipes(JSON.parse(recipesData));
         }
-        
+
         // Load search history
         const historyData = await getData('searchHistory');
         if (historyData) {
@@ -108,7 +108,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         console.error('Error loading data from storage:', error);
       }
     };
-    
+
     loadSavedData();
   }, []);
 
@@ -123,16 +123,16 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   useEffect(() => {
     storeData('savedRecipes', JSON.stringify(savedRecipes));
   }, [savedRecipes]);
-  
+
   // Save search history whenever it changes
   useEffect(() => {
     storeData('searchHistory', JSON.stringify(searchHistory));
   }, [searchHistory]);
 
   const toggleAllergen = (allergenId: string) => {
-    setSelectedAllergens(prev => {
+    setSelectedAllergens((prev) => {
       if (prev.includes(allergenId)) {
-        return prev.filter(id => id !== allergenId);
+        return prev.filter((id) => id !== allergenId);
       } else {
         return [...prev, allergenId];
       }
@@ -142,24 +142,24 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   const saveRecipe = (recipe: Recipe) => {
     const recipeWithTimestamp = {
       ...recipe,
-      savedAt: Date.now(),
+      createdAt: Date.now(),
     };
-    setSavedRecipes(prev => {
+    setSavedRecipes((prev) => {
       // Don't add duplicates
-      const exists = prev.some(r => r.id === recipe.id);
+      const exists = prev.some((r) => r.id === recipe.id);
       if (exists) return prev;
       return [recipeWithTimestamp, ...prev];
     });
   };
 
   const removeSavedRecipe = (recipeId: string) => {
-    setSavedRecipes(prev => prev.filter(recipe => recipe.id !== recipeId));
+    setSavedRecipes((prev) => prev.filter((recipe) => recipe.id !== recipeId));
   };
-  
+
   const addToSearchHistory = (recipe: Recipe) => {
-    setSearchHistory(prev => {
+    setSearchHistory((prev) => {
       // Limit history to 10 items
-      const newHistory = [recipe, ...prev.filter(r => r.id !== recipe.id)];
+      const newHistory = [recipe, ...prev.filter((r) => r.id !== recipe.id)];
       if (newHistory.length > 10) {
         return newHistory.slice(0, 10);
       }
@@ -173,13 +173,13 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         selectedAllergens,
         toggleAllergen,
         allergensList: allergens,
-        
+
         savedRecipes,
         saveRecipe,
         removeSavedRecipe,
         searchHistory,
         addToSearchHistory,
-        
+
         isLoading,
         setIsLoading,
         error,

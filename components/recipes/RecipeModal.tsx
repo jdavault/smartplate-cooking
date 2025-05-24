@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Platform,
   SafeAreaView,
+  useColorScheme,
 } from 'react-native';
 import { Recipe } from '@/types/recipe';
 import { colors } from '@/constants/colors';
@@ -22,7 +23,7 @@ import {
   Cookie,
   X,
 } from 'lucide-react-native';
-import { useRecipes } from '@/hooks/useRecipes';
+import { useRecipeContext } from '@/hooks/useRecipeContext';
 import * as Haptics from 'expo-haptics';
 import { BlurView } from 'expo-blur';
 
@@ -33,18 +34,22 @@ interface RecipeModalProps {
   hideActions?: boolean;
 }
 
-export default function RecipeModal({
+const RecipeModal = ({
   recipe,
   visible,
   onClose,
   hideActions = false,
-}: RecipeModalProps) {
+}: RecipeModalProps) => {
   const [isVisible, setIsVisible] = useState(visible);
-  const { saveRecipe, savedRecipes } = useRecipes();
+  const { saveRecipe, savedRecipes } = useRecipeContext();
   const [isSaved, setIsSaved] = useState(
     savedRecipes.some((r) => r.id === recipe.id)
   );
   const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const colorScheme = useColorScheme() ?? 'light';
+  const theme = colors[colorScheme];
+  const styles = getStyles(colorScheme);
 
   useEffect(() => {
     setIsVisible(visible);
@@ -107,14 +112,14 @@ export default function RecipeModal({
             <View style={styles.modalContent}>
               <View style={styles.header}>
                 <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                  <ChevronLeft size={24} color={colors.grayBlue[800]} />
+                  <ChevronLeft size={24} color={theme.grayBlue[800]} />
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>Recipe</Text>
                 <TouchableOpacity
                   style={styles.closeButtonRight}
                   onPress={onClose}
                 >
-                  <X size={24} color={colors.grayBlue[800]} />
+                  <X size={24} color={theme.grayBlue[800]} />
                 </TouchableOpacity>
               </View>
 
@@ -125,19 +130,19 @@ export default function RecipeModal({
 
                   <View style={styles.metaInfo}>
                     <View style={styles.metaItem}>
-                      <Clock size={18} color={colors.primary} />
+                      <Clock size={18} color={theme.primary} />
                       <Text style={styles.metaText}>{totalTime()}</Text>
                     </View>
 
                     <View style={styles.metaItem}>
-                      <Users size={18} color={colors.primary} />
+                      <Users size={18} color={theme.primary} />
                       <Text style={styles.metaText}>
                         {recipe.servings} servings
                       </Text>
                     </View>
 
                     <View style={styles.metaItem}>
-                      <Cookie size={18} color={colors.primary} />
+                      <Cookie size={18} color={theme.primary} />
                       <Text style={styles.metaText}>{recipe.difficulty}</Text>
                     </View>
                   </View>
@@ -208,7 +213,7 @@ export default function RecipeModal({
                   >
                     <BookmarkCheck
                       size={20}
-                      color={isSaved ? colors.secondary : colors.primary}
+                      color={isSaved ? theme.secondary : theme.primary}
                     />
                     <Text
                       style={[
@@ -225,7 +230,7 @@ export default function RecipeModal({
                     style={[styles.actionButton, styles.closeButtonBottom]}
                     onPress={onClose}
                   >
-                    <ThumbsUp size={20} color={colors.grayBlue[800]} />
+                    <ThumbsUp size={20} color={theme.grayBlue[800]} />
                     <Text style={styles.actionButtonText}>Close</Text>
                   </TouchableOpacity>
                 </View>
@@ -236,220 +241,225 @@ export default function RecipeModal({
       </BlurView>
     </Modal>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  blurContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-  safeArea: {
-    flex: 1,
-  },
-  modalContent: {
-    flex: 1,
-    backgroundColor: colors.secondary,
-    borderRadius: 16,
-    overflow: 'hidden',
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.grayBlue[200],
-    backgroundColor: colors.secondary,
-  },
-  headerTitle: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 18,
-    color: colors.grayBlue[900],
-  },
-  closeButton: {
-    padding: 4,
-  },
-  closeButtonRight: {
-    padding: 4,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    padding: 16,
-    paddingBottom: 32,
-  },
-  title: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 24,
-    color: colors.grayBlue[900],
-    marginBottom: 8,
-  },
-  description: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 16,
-    color: colors.grayBlue[700],
-    lineHeight: 22,
-    marginBottom: 16,
-  },
-  metaInfo: {
-    flexDirection: 'row',
-    marginBottom: 16,
-    flexWrap: 'wrap',
-  },
-  metaItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 16,
-    marginBottom: 8,
-  },
-  metaText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.grayBlue[700],
-    marginLeft: 6,
-  },
-  allergensContainer: {
-    backgroundColor: colors.error[50],
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
-  allergensTitle: {
-    fontFamily: 'OpenSans-SemiBold',
-    fontSize: 14,
-    color: colors.error[700],
-    marginRight: 4,
-  },
-  allergensText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.error[700],
-    flex: 1,
-  },
-  section: {
-    marginBottom: 24,
-  },
-  sectionTitle: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 18,
-    color: colors.grayBlue[900],
-    marginBottom: 12,
-  },
-  ingredientsList: {
-    gap: 8,
-  },
-  ingredientItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  bullet: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: colors.primary,
-    marginTop: 8,
-    marginRight: 8,
-  },
-  ingredientText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 16,
-    color: colors.grayBlue[800],
-    flex: 1,
-  },
-  instructionsList: {
-    gap: 16,
-  },
-  instructionItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  instructionNumberContainer: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 12,
-  },
-  instructionNumber: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
-    color: colors.secondary,
-  },
-  instructionText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 16,
-    color: colors.grayBlue[800],
-    flex: 1,
-    lineHeight: 24,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 8,
-    gap: 8,
-  },
-  tag: {
-    backgroundColor: colors.primary,
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  tagText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 12,
-    color: colors.secondary,
-  },
-  actions: {
-    flexDirection: 'row',
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: colors.grayBlue[200],
-    backgroundColor: colors.secondary,
-  },
-  actionButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    borderRadius: 8,
-    marginHorizontal: 4,
-  },
-  saveButton: {
-    backgroundColor: colors.primary,
-    borderWidth: 1,
-    borderColor: colors.primary,
-  },
-  savedButton: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  closeButtonBottom: {
-    backgroundColor: colors.secondary,
-    borderWidth: 1,
-    borderColor: colors.grayBlue[300],
-  },
-  actionButtonText: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
-    marginLeft: 8,
-  },
-  saveButtonText: {
-    color: colors.secondary,
-  },
-  savedButtonText: {
-    color: colors.secondary,
-  },
-});
+export default RecipeModal;
+
+const getStyles = (scheme: 'light' | 'dark') => {
+  const theme = colors[scheme];
+  return StyleSheet.create({
+    blurContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    container: {
+      flex: 1,
+      width: '100%',
+      height: '100%',
+    },
+    safeArea: {
+      flex: 1,
+    },
+    modalContent: {
+      flex: 1,
+      backgroundColor: theme.secondary,
+      borderRadius: 16,
+      overflow: 'hidden',
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.grayBlue[200],
+      backgroundColor: theme.secondary,
+    },
+    headerTitle: {
+      fontFamily: 'Montserrat-SemiBold',
+      fontSize: 18,
+      color: theme.grayBlue[900],
+    },
+    closeButton: {
+      padding: 4,
+    },
+    closeButtonRight: {
+      padding: 4,
+    },
+    scrollView: {
+      flex: 1,
+    },
+    content: {
+      padding: 16,
+      paddingBottom: 32,
+    },
+    title: {
+      fontFamily: 'Montserrat-Bold',
+      fontSize: 24,
+      color: theme.grayBlue[900],
+      marginBottom: 8,
+    },
+    description: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 16,
+      color: theme.grayBlue[700],
+      lineHeight: 22,
+      marginBottom: 16,
+    },
+    metaInfo: {
+      flexDirection: 'row',
+      marginBottom: 16,
+      flexWrap: 'wrap',
+    },
+    metaItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginRight: 16,
+      marginBottom: 8,
+    },
+    metaText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.grayBlue[700],
+      marginLeft: 6,
+    },
+    allergensContainer: {
+      backgroundColor: theme.error[50],
+      borderRadius: 8,
+      padding: 12,
+      marginBottom: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+    },
+    allergensTitle: {
+      fontFamily: 'OpenSans-SemiBold',
+      fontSize: 14,
+      color: theme.error[700],
+      marginRight: 4,
+    },
+    allergensText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.error[700],
+      flex: 1,
+    },
+    section: {
+      marginBottom: 24,
+    },
+    sectionTitle: {
+      fontFamily: 'Montserrat-SemiBold',
+      fontSize: 18,
+      color: theme.grayBlue[900],
+      marginBottom: 12,
+    },
+    ingredientsList: {
+      gap: 8,
+    },
+    ingredientItem: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+    },
+    bullet: {
+      width: 6,
+      height: 6,
+      borderRadius: 3,
+      backgroundColor: theme.primary,
+      marginTop: 8,
+      marginRight: 8,
+    },
+    ingredientText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 16,
+      color: theme.grayBlue[800],
+      flex: 1,
+    },
+    instructionsList: {
+      gap: 16,
+    },
+    instructionItem: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+    },
+    instructionNumberContainer: {
+      width: 28,
+      height: 28,
+      borderRadius: 14,
+      backgroundColor: theme.primary,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 12,
+    },
+    instructionNumber: {
+      fontFamily: 'Montserrat-SemiBold',
+      fontSize: 14,
+      color: theme.secondary,
+    },
+    instructionText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 16,
+      color: theme.grayBlue[800],
+      flex: 1,
+      lineHeight: 24,
+    },
+    tagsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      marginTop: 8,
+      gap: 8,
+    },
+    tag: {
+      backgroundColor: theme.primary,
+      borderRadius: 12,
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+    },
+    tagText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 12,
+      color: theme.secondary,
+    },
+    actions: {
+      flexDirection: 'row',
+      padding: 16,
+      borderTopWidth: 1,
+      borderTopColor: theme.grayBlue[200],
+      backgroundColor: theme.secondary,
+    },
+    actionButton: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 12,
+      borderRadius: 8,
+      marginHorizontal: 4,
+    },
+    saveButton: {
+      backgroundColor: theme.primary,
+      borderWidth: 1,
+      borderColor: theme.primary,
+    },
+    savedButton: {
+      backgroundColor: theme.primary,
+      borderColor: theme.primary,
+    },
+    closeButtonBottom: {
+      backgroundColor: theme.secondary,
+      borderWidth: 1,
+      borderColor: theme.grayBlue[300],
+    },
+    actionButtonText: {
+      fontFamily: 'Montserrat-SemiBold',
+      fontSize: 14,
+      marginLeft: 8,
+    },
+    saveButtonText: {
+      color: theme.secondary,
+    },
+    savedButtonText: {
+      color: theme.secondary,
+    },
+  });
+};

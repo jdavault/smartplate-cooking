@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "EXPO_NO_TELEMETRY=1 npx expo start",
+    "start": "npx expo start --clear",
     "build:web": "npx expo export --platform web",
     "lint": "npx expo lint",
     "build:ios:native": "rm -rf node_modules/.cache/babel-loader/* .expo ios && npx expo prebuild --platform ios --clean",
@@ -51,6 +51,7 @@
     "react-native-screens": "~4.10.0",
     "react-native-svg": "15.11.2",
     "react-native-url-polyfill": "^2.0.0",
+    "react-native-appwrite": "^0.7.4",
     "react-native-web": "^0.20.0",
     "react-native-webview": "13.13.5",
     "rimraf": "^6.0.1",
@@ -59,6 +60,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
+    "del-cli": "^6.0.0",
     "typescript": "~5.8.3"
   },
   "expo": {

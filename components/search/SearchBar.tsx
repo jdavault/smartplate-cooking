@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Text,
   Platform,
+  useColorScheme,
 } from 'react-native';
 import { Search } from 'lucide-react-native';
 import { colors } from '@/constants/colors';
@@ -19,14 +20,18 @@ interface SearchBarProps {
   disabled?: boolean;
 }
 
-export default function SearchBar({
+const SearchBar = ({
   value,
   onChangeText,
   onSearch,
   placeholder = 'Search...',
   disabled = false,
-}: SearchBarProps) {
+}: SearchBarProps) => {
   const [isFocused, setIsFocused] = useState(false);
+
+  const colorScheme = useColorScheme() ?? 'light';
+  const theme = colors[colorScheme];
+  const styles = getStyles(colorScheme);
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -52,7 +57,7 @@ export default function SearchBar({
       ]}
     >
       <View style={styles.inputContainer}>
-        <Search size={20} color={colors.grayBlue[500]} style={styles.icon} />
+        <Search size={20} color={theme.grayBlue[500]} style={styles.icon} />
         <TextInput
           style={[
             styles.input,
@@ -61,7 +66,7 @@ export default function SearchBar({
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
-          placeholderTextColor={colors.grayBlue[400]}
+          placeholderTextColor={theme.grayBlue[400]}
           onFocus={handleFocus}
           onBlur={handleBlur}
           onSubmitEditing={handleSearch}
@@ -83,53 +88,58 @@ export default function SearchBar({
       )}
     </View>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.secondary,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 4,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.primaryDark,
-  },
-  containerFocused: {
-    borderBottomColor: colors.primary,
-  },
-  containerDisabled: {
-    backgroundColor: colors.rice[200],
-    opacity: 0.8,
-  },
-  inputContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 4,
-  },
-  icon: {
-    marginRight: 8,
-  },
-  input: {
-    flex: 1,
-    height: 48,
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 16,
-    padding: 5,
-    color: colors.grayBlue[900],
-    backgroundColor: '#fff',
-  },
-  searchButton: {
-    marginLeft: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 4,
-    backgroundColor: colors.primary,
-  },
-  searchButtonText: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 14,
-    color: colors.secondary,
-  },
-});
+export default SearchBar;
+
+const getStyles = (scheme: 'light' | 'dark') => {
+  const theme = colors[scheme];
+  return StyleSheet.create({
+    container: {
+      backgroundColor: theme.secondary,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingVertical: 4,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.primaryDark,
+    },
+    containerFocused: {
+      borderBottomColor: theme.primary,
+    },
+    containerDisabled: {
+      backgroundColor: theme.rice[200],
+      opacity: 0.8,
+    },
+    inputContainer: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderRadius: 4,
+    },
+    icon: {
+      marginRight: 8,
+    },
+    input: {
+      flex: 1,
+      height: 48,
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 16,
+      padding: 5,
+      color: theme.grayBlue[900],
+      backgroundColor: '#fff',
+    },
+    searchButton: {
+      marginLeft: 8,
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      borderRadius: 4,
+      backgroundColor: theme.primary,
+    },
+    searchButtonText: {
+      fontFamily: 'Montserrat-SemiBold',
+      fontSize: 14,
+      color: theme.secondary,
+    },
+  });
+};

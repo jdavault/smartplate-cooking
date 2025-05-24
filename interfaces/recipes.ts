@@ -1,12 +1,10 @@
 export interface Recipe extends GeneratedRecipe {
   id: string;
   imageUrl: string;
-  searchQuery: string;
-  isFavorite?: boolean;
 }
-
 export interface GeneratedRecipe {
   title: string;
+  image: string;
   description: string;
   ingredients: string[];
   instructions: string[];
@@ -16,8 +14,10 @@ export interface GeneratedRecipe {
   servings: number;
   difficulty: string;
   tags: string[];
+  searchQuery?: string; // Optional property for search history
   createdAt?: string;
   updatedAt?: string;
+  isFavorite?: boolean;
 }
 
 // Down the line, we can add more properties to the Recipe interface

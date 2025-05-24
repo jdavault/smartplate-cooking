@@ -1,5 +1,7 @@
-import axios, { AxiosError } from 'axios';
 import { Recipe } from '@/types/recipe';
+import { GeneratedRecipe } from '@/interfaces/recipes';
+import { postRequest, axios, AxiosError } from '@/libs/apiClient';
+import { ChatCompletionResponse, ChatImageResponse } from '@/types/openai';
 
 export async function generateRecipe(
   query: string,
@@ -27,16 +29,19 @@ export async function generateRecipe(
         "servings": number of servings,
         "difficulty": "easy/medium/hard",
         "tags": ["tag1", "tag2", ...],
+        "searchQuery": "search query used to generate this recipe",
         "allergens": ["allergen1", "allergen2", ...]
+        "createdAt": "timestamp",
+        "updatedAt": "timestamp",
       }
       
       Be careful to avoid including any allergens mentioned in the allergensText.
       The allergens field should list potential allergens present in the recipe.
       Make sure all times are in minutes format (e.g., "15 minutes").
-      Be specific with ingredient quantities.
+      Be specific with ingredient quantities. Replace imageUrl with a value for a URL to a generated recipe image.
     `;
 
-    const response = await axios.post(
+    const response = await postRequest<ChatCompletionResponse>(
       'https://api.openai.com/v1/chat/completions',
       {
         model: 'gpt-3.5-turbo',
@@ -62,17 +67,23 @@ export async function generateRecipe(
     );
 
     // Parse the response content as JSON
-    const content = response.data.choices[0].message.content;
+    const content = response.choices[0].message.content;
     const recipeData = cleanAndParse(content);
 
     // Create a unique ID
     const id = Date.now().toString();
 
-    return {
+    const imageUrl = await getRecipeImage(recipeData.title);
+
+    const fullRecipeData = {
       id,
       ...recipeData,
+      imageUrl,
       searchQuery: query,
+      isFavorite: false,
     };
+    console.log('FULL:', fullRecipeData);
+    return fullRecipeData;
   } catch (error) {
     console.error('Error generating recipe:', error);
 
@@ -103,7 +114,35 @@ export async function generateRecipe(
   }
 }
 
-function cleanAndParse(content: string) {
+export async function getRecipeImage(title: string): Promise<string> {
+  //const defaultImageUrl =
+  //  'https://oaidalleapiprodscus.blob.core.windows.net/private/org-pigNWK6KQYXhW9KadKfDpVGu/user-39kulMjtAc64ijuOibVGsWHQ/img-INkLrEdeZfwZAOWtZtX1rdSo.png?st=2025-05-24T16%3A26%3A18Z&se=2025-05-24T18%3A26%3A18Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=8b33a531-2df9-46a3-bc02-d4b1430a422c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-24T00%3A28%3A23Z&ske=2025-05-25T00%3A28%3A23Z&sks=b&skv=2024-08-04&sig=73pFuy8MrnJPjLNlEgfDCAGwCi1vnpImcBxf5E4IMXw%3D';
+  // Default image URL in case of failure
+  const defaultImageUrl = '../../assets/images/defaultPhoto.png';
+  try {
+    const response = await postRequest<ChatImageResponse>(
+      'https://api.openai.com/v1/images/generations',
+      {
+        prompt: `High quality food photo of ${title}, professional lighting, styled on a plate`,
+        n: 1,
+        size: '512x512',
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.EXPO_PUBLIC_OPENAI_API_KEY}`,
+        },
+      }
+    );
+
+    return response?.data?.[0]?.url ?? defaultImageUrl;
+  } catch (error) {
+    console.error('Error generating recipe image:', error);
+    return defaultImageUrl;
+  }
+}
+
+function cleanAndParse(content: string): GeneratedRecipe {
   // Step 1: Remove code block markers (```json ... ```)
   const cleaned = content.replace(/```json\s*([\s\S]*?)\s*```/, '$1');
 
@@ -146,7 +185,7 @@ function generateMockRecipe(query: string, allergens: string[]): Recipe {
     ingredients.push('1/4 cup chopped walnuts');
   }
 
-  const presentAllergens = [];
+  const presentAllergens: string[] = [];
   Object.keys(options).forEach((allergen) => {
     if (!allergens.includes(allergen) && Math.random() > 0.7) {
       presentAllergens.push(allergen);
@@ -156,6 +195,8 @@ function generateMockRecipe(query: string, allergens: string[]): Recipe {
   return {
     id,
     title,
+    imageUrl:
+      'https://oaidalleapiprodscus.blob.core.windows.net/private/org-pigNWK6KQYXhW9KadKfDpVGu/user-39kulMjtAc64ijuOibVGsWHQ/img-INkLrEdeZfwZAOWtZtX1rdSo.png?st=2025-05-24T16%3A26%3A18Z&se=2025-05-24T18%3A26%3A18Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=8b33a531-2df9-46a3-bc02-d4b1430a422c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-24T00%3A28%3A23Z&ske=2025-05-25T00%3A28%3A23Z&sks=b&skv=2024-08-04&sig=73pFuy8MrnJPjLNlEgfDCAGwCi1vnpImcBxf5E4IMXw%3D',
     description: `A delicious ${query} recipe that's easy to make and full of flavor.`,
     ingredients,
     instructions: [

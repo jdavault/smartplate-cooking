@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  useColorScheme,
 } from 'react-native';
 import { Recipe } from '@/types/recipe';
 import { colors } from '@/constants/colors';
@@ -16,11 +17,11 @@ interface RecipeCardProps {
   onDelete?: () => void;
 }
 
-export default function RecipeCard({
-  recipe,
-  onPress,
-  onDelete,
-}: RecipeCardProps) {
+const RecipeCard = ({ recipe, onPress, onDelete }: RecipeCardProps) => {
+  const colorScheme = useColorScheme() ?? 'light';
+  const theme = colors[colorScheme];
+  const styles = getStyles(colorScheme);
+
   const handleDelete = (e: any) => {
     e.stopPropagation();
     if (Platform.OS !== 'web') {
@@ -48,8 +49,10 @@ export default function RecipeCard({
       activeOpacity={0.8}
     >
       <View style={styles.header}>
-        {recipe.savedAt && (
-          <Text style={styles.date}>Saved on {formatDate(recipe.savedAt)}</Text>
+        {recipe.createdAt && (
+          <Text style={styles.date}>
+            Saved on {formatDate(recipe.createdAt)}
+          </Text>
         )}
         {onDelete && (
           <TouchableOpacity
@@ -57,7 +60,7 @@ export default function RecipeCard({
             onPress={handleDelete}
             hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
           >
-            <Trash2 size={18} color={colors.error[700]} />
+            <Trash2 size={18} color={theme.error[700]} />
           </TouchableOpacity>
         )}
       </View>
@@ -69,14 +72,14 @@ export default function RecipeCard({
 
       <View style={styles.metaInfo}>
         <View style={styles.metaItem}>
-          <Clock size={16} color={colors.primary} />
+          <Clock size={16} color={theme.primary} />
           <Text style={styles.metaText}>
             {recipe.prepTime} + {recipe.cookTime}
           </Text>
         </View>
 
         <View style={styles.metaItem}>
-          <Users size={16} color={colors.primary} />
+          <Users size={16} color={theme.primary} />
           <Text style={styles.metaText}>{recipe.servings} servings</Text>
         </View>
       </View>
@@ -91,78 +94,83 @@ export default function RecipeCard({
       )}
     </TouchableOpacity>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.secondary,
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: colors.grayBlue[200],
-    elevation: 2,
-    shadowColor: colors.accentDark,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  date: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 12,
-    color: colors.grayBlue[500],
-  },
-  deleteButton: {
-    padding: 4,
-  },
-  title: {
-    fontFamily: 'Montserrat-SemiBold',
-    fontSize: 18,
-    color: colors.grayBlue[900],
-    marginBottom: 4,
-  },
-  description: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 14,
-    color: colors.grayBlue[700],
-    marginBottom: 12,
-  },
-  metaInfo: {
-    flexDirection: 'row',
-    marginBottom: 12,
-  },
-  metaItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  metaText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 13,
-    color: colors.grayBlue[700],
-    marginLeft: 4,
-  },
-  allergens: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 4,
-    flexWrap: 'wrap',
-  },
-  allergensLabel: {
-    fontFamily: 'OpenSans-SemiBold',
-    fontSize: 12,
-    color: colors.error[700],
-  },
-  allergensText: {
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 12,
-    color: colors.error[700],
-    flex: 1,
-  },
-});
+export default RecipeCard;
+
+const getStyles = (scheme: 'light' | 'dark') => {
+  const theme = colors[scheme];
+  return StyleSheet.create({
+    container: {
+      backgroundColor: theme.secondary,
+      borderRadius: 8,
+      padding: 16,
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: theme.grayBlue[200],
+      elevation: 2,
+      shadowColor: theme.accentDark,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    date: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 12,
+      color: theme.grayBlue[500],
+    },
+    deleteButton: {
+      padding: 4,
+    },
+    title: {
+      fontFamily: 'Montserrat-SemiBold',
+      fontSize: 18,
+      color: theme.grayBlue[900],
+      marginBottom: 4,
+    },
+    description: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 14,
+      color: theme.grayBlue[700],
+      marginBottom: 12,
+    },
+    metaInfo: {
+      flexDirection: 'row',
+      marginBottom: 12,
+    },
+    metaItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginRight: 16,
+    },
+    metaText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 13,
+      color: theme.grayBlue[700],
+      marginLeft: 4,
+    },
+    allergens: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 4,
+      flexWrap: 'wrap',
+    },
+    allergensLabel: {
+      fontFamily: 'OpenSans-SemiBold',
+      fontSize: 12,
+      color: theme.error[700],
+    },
+    allergensText: {
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 12,
+      color: theme.error[700],
+      flex: 1,
+    },
+  });
+};
